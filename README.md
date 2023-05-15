@@ -1,5 +1,6 @@
 # Welcome to Quant management System
 """
+![DALL·E 2023-05-15 22 24 01 - polygon style wallpaper eye protect](https://github.com/Heisnotanimposter/Quant-management-program/assets/97718938/6d9dd12a-008f-4655-8234-6054c2fb47d6)
 
 
 A Quantitative Management System (QMS) is a software platform or framework used by quantitative analysts, portfolio managers, and other financial professionals to develop, test, and execute quantitative investment strategies. It is designed to facilitate the entire lifecycle of quantitative investing, from data acquisition and preprocessing to strategy development, backtesting, and live trading.
