@@ -58,4 +58,4 @@ ax.grid(True)
 st.pyplot(fig)
 
 # Now can view streamlit app in browser, type this on terminal
-# streamlit run /Users/'your username'/'...'/streamlittest/QuantStreamlit.py
+# streamlit run /Users/'SeungwonLee'/'...'/streamlittest/QuantStreamlit.py

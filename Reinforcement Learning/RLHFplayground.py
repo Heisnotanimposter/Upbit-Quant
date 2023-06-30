@@ -1,3 +1,5 @@
+#!pip install gym
+#!pip install deap
 import numpy as np
 import gym
 from deap import creator, base, tools, algorithms
