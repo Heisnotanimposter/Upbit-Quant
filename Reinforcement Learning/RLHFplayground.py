@@ -13,13 +13,26 @@ class RLHFPlayground(gym.Env):
         self.observation_space = gym.spaces.Box(low=np.min(data), high=np.max(data), shape=(data.shape[1],))
 
     def step(self, action):
-        # Determine the new state and reward from the given action. 
-        # This will depend on your specific environment.
-        # For example, if action is buying or selling, you would adjust the agent's portfolio and calculate the reward based on the resulting profit or loss.
-        observation = ...  
-        reward = ...  
-        done = ...  
-        info = ...  
+        # Update the current step
+        self.current_step += 1
+
+        # Determine the new state
+        observation = self.data[self.current_step]
+
+        # Calculate the reward
+        if action == 0:  # Buy
+            self.portfolio += observation
+            reward = -observation  # Negative reward because we're spending money to buy
+        elif action == 1:  # Sell
+            self.portfolio -= observation
+            reward = observation  # Positive reward because we're receiving money from selling
+
+        # Check if the episode is done
+        done = self.current_step >= len(self.data) - 1
+
+        # You can include additional info if needed, but it's not used in this example
+        info = {}
+
         return observation, reward, done, info
 
     def reset(self):
@@ -34,10 +47,15 @@ class Agent:
         self.observation = env.reset()
     
     def step(self):
-        # Determine the action. This could be a simple rule (e.g., buy if price went up in the last step) or a complex model.
-        action = ...
+    # Determine the action
+        if self.observation[-1] > self.observation[-2]:  # If the price went up in the last step
+            action = 0  # Buy
+        else:  # If the price went down or stayed the same
+            action = 1  # Sell
+
         self.observation, reward, done, info = self.env.step(action)
         return reward
+
 
 # Apply a genetic algorithm
 creator.create("FitnessMax", base.Fitness, weights=(1.0,))
