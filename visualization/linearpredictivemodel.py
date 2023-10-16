@@ -7,7 +7,7 @@ Original file is located at
     https://colab.research.google.com/drive/1-aXksmcZZC99uLALc5U6KBQe4-IoTNgu
 """
 
-!pip install fbprophet
+#pip install fbprophet
 
 import pandas as pd
 import numpy as np
