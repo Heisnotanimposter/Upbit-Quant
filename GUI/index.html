@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Virtual Market Analysis</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <h1>Virtual Market Analysis</h1>
+
+  <div id="sidebar">
+    Fear Threshold: <input type="number" id="fearThreshold" value="0.7" min="0" max="1" step="0.01"><br>
+    Greed Threshold: <input type="number" id="greedThreshold" value="0.7" min="0" max="1" step="0.01">
+  </div>
+
+  <div id="chartContainer">
+    <canvas id="fearChart"></canvas>
+    <canvas id="greedChart"></canvas>
+    <canvas id="tradeChart"></canvas>
+  </div>
+
+  <script>
+    // Data Fetching (replace with your data source logic)
+    const marketData = [
+      // Sample format: { date: '2023-03-19', fearIndex: 55, greedIndex: 60, tradePotential: -1 }, ...
+    ]; 
+
+    // Extract Fear, Greed, Trade Potential from marketData 
+    const fearData = marketData.map(dataPoint => dataPoint.fearIndex);
+    const greedData = marketData.map(dataPoint => dataPoint.greedIndex);
+    const tradeData = marketData.map(dataPoint => dataPoint.tradePotential);
+    const dates = marketData.map(dataPoint => dataPoint.date); // For chart labels
+
+    // DOM elements for easier access
+    const fearCtx = document.getElementById('fearChart').getContext('2d');
+    const greedCtx = document.getElementById('greedChart').getContext('2d');
+    const tradeCtx = document.getElementById('tradeChart').getContext('2d');
+    const fearThresholdInput = document.getElementById('fearThreshold');
+    const greedThresholdInput = document.getElementById('greedThreshold');
+
+    // Function to update charts (to be called initially and when thresholds change)
+    function updateCharts() {
+      createFearChart();
+      createGreedChart();
+      createTradeChart();
+    }
+
+    // Fear Chart Creation 
+    function createFearChart() {
+      new Chart(fearCtx, {
+        type: 'line', // Chart type
+        data: {
+          labels: dates, 
+          datasets: [{
+            label: 'Fear Index',
+            data: fearData,
+            borderColor: 'red', 
+            backgroundColor: 'rgba(255, 0, 0, 0.1)', // Slightly transparent red
+            tension: 0.4 // Add some curve to the line 
+          }]
+        },
+        options: {
+          // Chart options here (title, axes, etc.)
+        }
+      });
+    }
+
+    // Greed Chart Creation (similar to createFearChart)
+    function createGreedChart() { /* ... */ }
+
+    // Trade Chart Creation (similar to createFearChart)
+    function createTradeChart() { /* ... */ }
+
+    // Initialize the charts on page load
+    updateCharts();
+
+    // Event listeners for threshold changes - Update charts when thresholds change 
+    fearThresholdInput.addEventListener('change', updateCharts);
+    greedThresholdInput.addEventListener('change', updateCharts); 
+  </script>
+</body>
+</html>
