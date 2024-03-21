@@ -1,2 +1,0 @@
-# QuantMangement
- 1
