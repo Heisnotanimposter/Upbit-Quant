@@ -1,7 +1,16 @@
-##Upbit-Quant : Crypto Analysis and Trading Bots
+##Upbit-Quant : Crypto Analysis and Trading Bots##
+
+
 
 
 Introduction
+
+![TradePotential](https://github.com/Heisnotanimposter/Upbit-Quant/assets/97718938/50c561e0-b2b2-450d-b673-f325b2841742)
+![GreedIndex](https://github.com/Heisnotanimposter/Upbit-Quant/assets/97718938/482ac860-9368-477c-9ce0-e93a134e5e0d)
+![FearIndex](https://github.com/Heisnotanimposter/Upbit-Quant/assets/97718938/8c74ba2f-4ace-4628-9999-2a852931e0c5)
+![coinnet](https://github.com/Heisnotanimposter/Upbit-Quant/assets/97718938/c939950f-83a2-44ee-bade-af48f78400bb)
+
+
 This repository is dedicated to the development and testing of automated trading strategies for cryptocurrency markets. It features a collection of tools ranging from web crawlers for financial data acquisition to advanced machine learning models and genetic algorithms for market analysis and prediction.
 
 Directory Structure
