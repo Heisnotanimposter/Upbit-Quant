@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Virtual Market Analysis</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <h1>Virtual Market Analysis</h1>
+  <div id="sidebar">
+    Fear Threshold: <input type="number" id="fearThreshold" value="0.7"><br>
+    Greed Threshold: <input type="number" id="greedThreshold" value="0.7">
+  </div>
+
+  <div id="chartContainer">
+    <canvas id="fearChart"></canvas>
+    <canvas id="greedChart"></canvas>
+    <canvas id="tradeChart"></canvas>
+  </div>
+
+  <script>
+    // Replace this with data fetch logic or sample data
+    const marketData = [
+      // Sample format: { date: '2023-03-19', fearIndex: 55, greedIndex: 60, tradePotential: -1 }, ...
+    ]; 
+
+    // ... (Logic to extract fear index, greed index, trade potential from marketData)
+
+    const fearCtx = document.getElementById('fearChart').getContext('2d');
+    const greedCtx = document.getElementById('greedChart').getContext('2d');
+    const tradeCtx = document.getElementById('tradeChart').getContext('2d');
+
+    // ... (Chart construction using Chart.js)
+  </script>
+</body>
+</html>
