@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seungwon's Cryptocurrency Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .container { width: 80%; margin: auto; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { text-align: left; padding: 8px; border-bottom: 1px solid #ddd; }
+        #chartContainer { display: flex; justify-content: space-around; flex-wrap: wrap; }
+        canvas { max-width: 100%; }
+    </style>
+</head>
+<body onload="getTime()">
+<div class="container">
+    <h1>Virtual Market Analysis</h1>
+    <div id="sidebar">
+        Fear Threshold: <input type="number" id="fearThreshold" value="0.7"><br>
+        Greed Threshold: <input type="number" id="greedThreshold" value="0.7">
+    </div>
+    <div id="chartContainer">
+        <canvas id="fearChart"></canvas>
+        <canvas id="greedChart"></canvas>
+        <canvas id="tradeChart"></canvas>
+        <canvas id="marketCapChart"></canvas>
+        <canvas id="volumeChart"></canvas>
+    </div>
+    <p id="TimeIs"></p> <!-- Time Display Here -->
+    <table id="crypto-table">
+        <thead>
+            <tr>
+                <th>Cryptocurrency</th>
+                <th>Price (USD)</th>
+                <th>Market Cap (USD)</th>
+                <th>24H Volume (USD)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- JavaScript will dynamically insert rows here -->
+        </tbody>
+    </table>
+</div>
+
+<script>
+function getTime() {
+    var d = new Date();
+    var hur = d.getHours();
+    var min = d.getMinutes();
+    var sec = d.getSeconds();
+    var timeBoard = document.getElementById("TimeIs");
+    var time = hur + ":" + min + ":" + sec;
+    timeBoard.innerHTML = time;
+    setTimeout(getTime, 1000); // Call getTime every second to update the clock
+}
+
+async function fetchCryptoData() {
+    const response = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=25&page=1&sparkline=false');
+    const data = await response.json();
+
+    const tableBody = document.getElementById('crypto-table').getElementsByTagName('tbody')[0];
+    data.forEach(crypto => {
+        let row = tableBody.insertRow();
+        let cellName = row.insertCell(0);
+        let cellPrice = row.insertCell(1);
+        let cellMarketCap = row.insertCell(2);
+        let cellVolume = row.insertCell(3);
+
+        cellName.textContent = crypto.name;
+        cellPrice.textContent = `$${crypto.current_price.toLocaleString()}`;
+        cellMarketCap.textContent = `$${crypto.market_cap.toLocaleString()}`;
+        cellVolume.textContent = `$${crypto.total_volume.toLocaleString()}`;
+    });
+
+    renderCharts(data);
+}
+
+async function renderCharts(data) {
+    const ctxMarketCap = document.getElementById('marketCapChart').getContext('2d');
+    const marketCapChart = new Chart(ctxMarketCap, {
+        type: 'bar',
+        data: {
+            labels: data.map(crypto => crypto.name),
+            datasets: [{
+                label: 'Market Cap',
+                data: data.map(crypto => crypto.market_cap),
+                backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    const ctxVolume = document.getElementById('volumeChart').getContext('2d');
+    const volumeChart = new Chart(ctxVolume, {
+        type: 'bar',
+        data: {
+            labels: data.map(crypto => crypto.name),
+            datasets: [{
+                label: '24H Volume',
+                data: data.map(crypto => crypto.total_volume),
+                backgroundColor: 'rgba(255, 206, 86, 0.5)',
+                borderColor: 'rgba(255, 206, 86, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+}
+
+getTime(); // Initialize the time display
+fetchCryptoData(); // Fetch and render the crypto data and charts
+
+// Initialize the fear, greed, and trade charts here
+// The example provided sets up the context for the chart
+// Make sure you include the data for the charts
+</script>
+</body>
+</html>
+
+
