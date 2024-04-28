@@ -1,0 +1,36 @@
+#pip install beautifulsoup4 lxml
+import requests
+from bs4 import BeautifulSoup
+from textblob import TextBlob
+
+
+def fetch_bbc_financial_news(url="https://www.bbc.com/news/business"):
+    response = requests.get(url)
+    soup = BeautifulSoup(response.text, 'lxml')
+    headlines = soup.find_all('h3')  # Assuming that headlines are in <h3> tags
+
+    # Filter for financial news; you might need to adjust the filtering logic based on actual page structure
+    financial_news = [headline.get_text() for headline in headlines if 'economy' in headline.get_text().lower()]
+    return financial_news
+
+financial_news = fetch_bbc_financial_news()
+print("Financial News Headlines:", financial_news)
+
+
+def analyze_sentiment(headlines):
+    sentiment_scores = [TextBlob(headline).sentiment.polarity for headline in headlines]
+    return sentiment_scores
+
+sentiment_scores = analyze_sentiment(financial_news)
+print("Sentiment Scores:", sentiment_scores)
+
+# Example of adding news impact to the DataFrame
+df['NewsImpact'] = pd.Series(sentiment_scores[:len(df)], index=df.index)
+
+# Refit VAR model including the news impact
+model = VAR(df)
+results = model.fit(maxlags=12, ic='aic')
+forecast = results.forecast(df.values[-lag_order:], 5)
+
+# Update forecasting DataFrame
+forecast_df = pd.DataFrame(forecast, index=range(2016, 2016 + len(forecast)), columns=df.columns)
