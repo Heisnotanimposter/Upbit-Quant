@@ -6,11 +6,19 @@ import os
 from pathlib import Path
 from typing import Any, Dict, Optional, Union
 from dotenv import load_dotenv
-from pydantic import BaseSettings, Field, validator
+from pydantic import Field, field_validator
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Config(BaseSettings):
     """Configuration class using Pydantic for validation and environment variable management."""
+
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        env_file_encoding="utf-8",
+        case_sensitive=False,
+        extra="ignore",
+    )
     
     # Database Configuration
     database_url: str = Field(default="sqlite:///upbit_quant.db", env="DATABASE_URL")
@@ -24,7 +32,9 @@ class Config(BaseSettings):
     # Django Settings
     secret_key: str = Field(default="django-insecure-change-me", env="SECRET_KEY")
     debug: bool = Field(default=False, env="DEBUG")
-    allowed_hosts: str = Field(default="localhost,127.0.0.1", env="ALLOWED_HOSTS")
+    allowed_hosts: list[str] = Field(
+        default_factory=lambda: ["localhost", "127.0.0.1"], env="ALLOWED_HOSTS"
+    )
     
     # API Keys
     upbit_access_key: str = Field(default="", env="UPBIT_ACCESS_KEY")
@@ -77,20 +87,16 @@ class Config(BaseSettings):
     logs_dir: Path = Field(default_factory=lambda: Path(__file__).parent.parent.parent / "logs")
     models_dir: Path = Field(default_factory=lambda: Path(__file__).parent.parent.parent / "models")
     
-    class Config:
-        """Pydantic configuration."""
-        env_file = ".env"
-        env_file_encoding = "utf-8"
-        case_sensitive = False
-        
-    @validator("allowed_hosts", pre=True)
+    @field_validator("allowed_hosts", mode="before")
+    @classmethod
     def parse_allowed_hosts(cls, v: Union[str, list]) -> list:
         """Parse allowed hosts from string or list."""
         if isinstance(v, str):
             return [host.strip() for host in v.split(",")]
         return v
     
-    @validator("log_level", pre=True)
+    @field_validator("log_level", mode="before")
+    @classmethod
     def validate_log_level(cls, v: str) -> str:
         """Validate log level."""
         valid_levels = ["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
@@ -98,7 +104,8 @@ class Config(BaseSettings):
             raise ValueError(f"Log level must be one of {valid_levels}")
         return v.upper()
     
-    @validator("risk_tolerance", "trading_fee", pre=True)
+    @field_validator("risk_tolerance", "trading_fee", mode="before")
+    @classmethod
     def validate_positive_float(cls, v: float) -> float:
         """Validate that float values are positive."""
         if v < 0:
