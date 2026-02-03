@@ -2,11 +2,15 @@
 Logging configuration for UPbit Quantitative Trading Platform.
 """
 
-import logging
 import sys
 from pathlib import Path
-from typing import Optional
-from loguru import logger as loguru_logger
+from typing import Any, Optional
+
+try:
+    from loguru import logger as loguru_logger  # type: ignore
+except Exception:  # pragma: no cover - fallback for minimal environments
+    loguru_logger = None  # type: ignore
+
 from .config import config
 
 
@@ -19,6 +23,9 @@ class LoggerConfig:
     
     def _setup_logger(self) -> None:
         """Setup logger configuration."""
+        if loguru_logger is None:
+            return
+
         # Remove default handler
         loguru_logger.remove()
         
@@ -56,6 +63,10 @@ class LoggerConfig:
     
     def get_logger(self, name: str) -> Any:
         """Get logger instance."""
+        if loguru_logger is None:
+            import logging
+
+            return logging.getLogger(name)
         return loguru_logger.bind(name=name)
 
 
@@ -71,6 +82,10 @@ def get_logger(name: Optional[str] = None) -> Any:
     if name is None:
         name = __name__
     
+    if loguru_logger is None:
+        import logging
+
+        return logging.getLogger(name)
     return loguru_logger.bind(name=name)
 
 
@@ -78,7 +93,11 @@ def setup_logging() -> None:
     """Setup logging configuration."""
     logger_config = LoggerConfig()
     logger = get_logger(__name__)
-    logger.info("Logging system initialized")
+    try:
+        logger.info("Logging system initialized")
+    except Exception:
+        # stdlib logging without handlers may throw in some configs; ignore.
+        pass
 
 
 # Initialize logging
