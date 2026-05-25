@@ -6,7 +6,7 @@ import pytest
 from decimal import Decimal
 from datetime import datetime, timezone
 
-from upbit_quant.utils.validation import (
+from src.utils.validation import (
     validate_price,
     validate_symbol,
     validate_timestamp,
@@ -17,7 +17,7 @@ from upbit_quant.utils.validation import (
     validate_email,
     validate_file_path,
 )
-from upbit_quant.core.exceptions import ValidationError
+from src.core.exceptions import ValidationError
 
 
 class TestValidatePrice:

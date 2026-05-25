@@ -6,8 +6,8 @@ import pytest
 from pathlib import Path
 from unittest.mock import patch
 
-from upbit_quant.core.config import Config
-from upbit_quant.core.exceptions import ConfigError
+from src.core.config import Config
+from src.core.exceptions import ConfigError
 
 
 class TestConfig:

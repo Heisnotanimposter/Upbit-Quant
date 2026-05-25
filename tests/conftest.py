@@ -9,8 +9,8 @@ from pathlib import Path
 from decimal import Decimal
 from unittest.mock import Mock, patch
 
-from upbit_quant.core.config import Config
-from upbit_quant.core.logger import get_logger
+from src.core.config import Config
+from src.core.logger import get_logger
 
 
 @pytest.fixture

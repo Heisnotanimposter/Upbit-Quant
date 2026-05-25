@@ -4,7 +4,7 @@ Tests for custom exceptions.
 
 import pytest
 
-from upbit_quant.core.exceptions import (
+from src.core.exceptions import (
     UPbitQuantError,
     TradingError,
     DataError,
