@@ -6,7 +6,7 @@ import pytest
 from decimal import Decimal
 from datetime import datetime, timezone
 
-from upbit_quant.utils.helpers import (
+from src.utils.helpers import (
     format_currency,
     calculate_percentage_change,
     safe_divide,
@@ -23,7 +23,7 @@ from upbit_quant.utils.helpers import (
     chunk_list,
     flatten_list,
 )
-from upbit_quant.core.exceptions import ValidationError
+from src.core.exceptions import ValidationError
 
 
 class TestFormatCurrency:
