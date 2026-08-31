@@ -1,0 +1,27 @@
+# Secret Environment Files
+.env
+.env.local
+.env.production
+
+# Database & SQLite files
+*.db
+*.db-wal
+*.db-shm
+bithumb_quant.db
+
+# Logs
+logs/
+*.log
+
+# Python cache & virtual environment
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+env/
+
+# IDE & OS files
+.DS_Store
+.vscode/
+.idea/

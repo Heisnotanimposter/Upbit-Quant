@@ -1,0 +1,13 @@
+google-genai>=0.1.1
+pyjwt>=2.8.0
+requests>=2.31.0
+aiohttp>=3.9.0
+pandas>=2.1.0
+numpy>=1.26.0
+ta>=0.11.0
+pyyaml>=6.0.1
+python-dotenv>=1.0.0
+python-telegram-bot>=20.7
+torch>=2.0.0
+plotly>=5.18.0
+scikit-learn>=1.3.0
